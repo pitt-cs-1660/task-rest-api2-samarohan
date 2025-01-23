@@ -130,10 +130,10 @@ async def delete_task(task_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id))
+        cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
         conn.commit()
     finally:
         cursor.close()
         conn.close()
 
-    return {"message": "Task successfully deleted"}
+    return {"message": f"Task {task_id} deleted successfully"}
