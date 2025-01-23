@@ -36,7 +36,21 @@ async def create_task(task_data: TaskCreate):
     Returns:
         TaskRead: The created task data
     """
-    raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Not implemented")
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "INSERT INTO tasks (title, description, completed) VALUES (?, ?, ?)",
+        {task_data.title, task_data.description, task_data.completed},
+    )
+    conn.commit()
+    id = cursor.lastrowid
+
+    cursor.close()
+    conn.close()
+
+    return TaskRead(id=id, title=task_data.title, description=task_data.description, completed=task_data.completed)
+    #raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail="Not implemented")
 
 
 # GET ROUTE to get all tasks
