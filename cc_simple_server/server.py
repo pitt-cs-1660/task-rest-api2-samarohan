@@ -41,7 +41,7 @@ async def create_task(task_data: TaskCreate):
 
     cursor.execute(
         "INSERT INTO tasks (title, description, completed) VALUES (?, ?, ?)",
-        {task_data.title, task_data.description, task_data.completed},
+        (task_data.title, task_data.description, task_data.completed),
     )
     conn.commit()
     id = cursor.lastrowid
